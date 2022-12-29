@@ -90,7 +90,7 @@ func (c *Client) CheckBulk(ips []string) ([]Response, error) {
 
 	// when ipstack is called with multiple ips, the response becomes an array of objects
 	if len(ips) > 1 {
-		if err := json.NewDecoder(buf.Body).Decode(responses); err != nil {
+		if err := json.NewDecoder(buf.Body).Decode(&responses); err != nil {
 			return responses, err
 		}
 
