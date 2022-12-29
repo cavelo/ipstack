@@ -59,12 +59,12 @@ func (c *Client) Check(ip string) (*Response, error) {
 	if len(responses) != 1 {
 		return nil, fmt.Errorf("ipstack: Client: check returned unexpected number of results")
 	}
-	return responses[0], nil
+	return &(responses[0]), nil
 }
 
-func (c *Client) CheckBulk(ips []string) ([]*Response, error) {
+func (c *Client) CheckBulk(ips []string) ([]Response, error) {
 
-	responses := []*Response{}
+	responses := []Response{}
 	if len(ips) <= 0 {
 		return responses, fmt.Errorf("ipstack: Client: no ips to check")
 	}
@@ -98,8 +98,8 @@ func (c *Client) CheckBulk(ips []string) ([]*Response, error) {
 	}
 
 	// unmarshal json response
-	r := &Response{}
-	if err := json.NewDecoder(buf.Body).Decode(r); err != nil {
+	r := Response{}
+	if err := json.NewDecoder(buf.Body).Decode(&r); err != nil {
 		return responses, err
 	}
 	responses = append(responses, r)
